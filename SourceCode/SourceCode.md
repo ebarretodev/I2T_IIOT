@@ -14,6 +14,10 @@ Has a project for config a MX OPC Service to read values from real PLC **FX5U-32
 
 Has a project to control the simulation used on presentation.
 
+## Folder Factory_IO_Scenes
+
+Has scene utlized for this project configured with MX OPC.
+
 ## Folder Raspberry Pi
 
 Has all project that contains the application for OEE and connection with the IOTA Streams Gateway.
