@@ -3,7 +3,7 @@
 
 ##### Instructions to communicate PLC with Tangle through IOTA Streams Gateway.
 
-This project was supported by <a href ="https://www.s4btech.com.br" target="blank">S4B Tech</a >.
+This project was supported by <a href ="https://www.s4btech.com.br" target="_blank">S4B Tech</a >.
 
 
 ##### Objective:
