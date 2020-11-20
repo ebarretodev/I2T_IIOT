@@ -1,0 +1,284 @@
+#:import C kivy.utils.get_color_from_hex
+#:import Factory kivy.factory.Factory
+
+#:set logo 'images/S4B.jpg'
+
+#:import SpeedMeter speedometer.speedmeter.SpeedMeter
+
+<Gerenciador>:
+    Startup:
+        name:'startup'
+    Inicio:
+        name:'inicio'
+    Operacao:
+        name:'operacao'
+    Configuracao:
+        name:'configuracao'
+
+<Startup>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 25,25
+        spacing: '30dp'
+        Image:
+            source: logo
+            size_hint_y: 4
+            allow_stretch: True
+
+<Inicio>:
+    Template:
+        Button:
+            size_hint:.07,.1
+            pos_hint: {'x': .75, 'y': .85}
+            allow_stretch: True
+            background_normal: 'images/ConfigON.png'
+            background_down:  'images/ConfigOff.png'
+            on_release: root.ConfigScreen()
+
+        Label:
+            size_hint: .5,.2
+            pos_hint: {'x':.25, 'y':.8}
+            text:'Inicialização'
+            color: C('#FFFFFF')
+            font_size: '60dp'
+            text_size: self.size
+            halign: 'left'
+            valign: 'middle'
+            bold: True
+
+        BotaoGrande:
+            text:'Iniciar'
+            pos_hint: {'x':.02, 'y': .02}
+            background_color: C('#06F484')
+            on_background_color: C('#6AFFB9')
+            on_release: root.iniciar()
+
+        Label:
+            text:'Nº OP:'
+            pos_hint: {'x':.05 , 'y': .68}
+            color: C('#000000')
+            size_hint: .15, .1
+            font_size: '40dp'
+            text_size: self.size
+            halign: 'left'
+            valign: 'middle'
+
+        TextInput:
+            pos_hint: {'x': 0.20 , 'y': 0.68}
+            size_hint: .75, .1
+            font_size: '40dp'
+            text_size: self.size
+            halign: 'center'
+            valign: 'middle'
+
+        Label:
+            text:'Cód. Produto:'
+            pos_hint: {'x':.05 , 'y': .55}
+            color: C('#000000')
+            size_hint: .25, .1
+            font_size: '40dp'
+            text_size: self.size
+            halign: 'left'
+            valign: 'middle'
+
+        TextInput:
+            pos_hint: {'x': 0.30 , 'y': 0.55}
+            size_hint: .65, .1
+            font_size: '40dp'
+            text_size: self.size
+            halign: 'center'
+            valign: 'middle'
+
+        Label:
+            text:'Tempo Prod.:'
+            pos_hint: {'x':.05 , 'y': .42}
+            color: C('#000000')
+            size_hint: .25, .1
+            font_size: '40dp'
+            text_size: self.size
+            halign: 'left'
+            valign: 'middle'
+
+        TextInput:
+            pos_hint: {'x': 0.30 , 'y': 0.42}
+            size_hint: .65, .1
+            font_size: '40dp'
+            text_size: self.size
+            halign: 'center'
+            valign: 'middle'
+
+<Operacao>:
+    Template:
+        BackgroundLabel:
+            text: '{:.0f}%'.format(app.Availability*100)
+            size_hint: .2,.2
+            pos_hint: {'x':.54, 'y':.55}
+            color: C('#000000')
+            background_color: app.Availability_Color
+            font_size: '80dp'
+            text_size: self.size
+            halign: 'center'
+            valign: 'middle'
+            bold: True
+        Label:
+            text: 'Availability'
+            size_hint: .2,.05
+            pos_hint: {'x':.54, 'y':.55}
+            color: C('#000000')
+            font_size: '20dp'
+            text_size: self.size
+            halign: 'center'
+            valign: 'middle'
+
+        BackgroundLabel:
+            text: '{:.0f}%'.format(app.Performance*100)
+            size_hint: .2,.2
+            pos_hint: {'x':.54, 'y':.3}
+            color: C('#000000')
+            background_color: app.Performance_Color
+            font_size: '80dp'
+            text_size: self.size
+            halign: 'center'
+            valign: 'middle'
+            bold: True
+
+        Label:
+            text: 'Performance'
+            size_hint: .2,.05
+            pos_hint: {'x':.54, 'y':.3}
+            color: C('#000000')
+            font_size: '20dp'
+            text_size: self.size
+            halign: 'center'
+            valign: 'middle'
+
+        BackgroundLabel:
+            text: '{:.0f}%'.format(app.Quality*100)
+            size_hint: .2,.2
+            pos_hint: {'x':.54, 'y':.05}
+            color: C('#000000')
+            background_color: app.Quality_Color
+            font_size: '80dp'
+            text_size: self.size
+            halign: 'center'
+            valign: 'middle'
+            bold: True
+
+        Label:
+            text: 'Quality'
+            size_hint: .2,.05
+            pos_hint: {'x':.54, 'y':.05}
+            color: C('#000000')
+            font_size: '20dp'
+            text_size: self.size
+            halign: 'center'
+            valign: 'middle'
+
+        BackgroundLabel:
+            text: '{:.0f}%'.format(app.OEE*100)
+            size_hint: .5,.7
+            pos_hint: {'x':.02, 'y':.05}
+            color: C('#000000')
+            background_color: app.OEE_Color
+            font_size: '200dp'
+            text_size: self.size
+            halign: 'center'
+            valign: 'middle'
+            bold: True
+        Label:
+            text: 'Overall Equipment Effectiveness'
+            size_hint: .5,.1
+            pos_hint: {'x':.02, 'y':.05}
+            color: C('#000000')
+            font_size: '30dp'
+            text_size: self.size
+            halign: 'center'
+            valign: 'middle'
+
+        Label:
+            size_hint: .5,.2
+            pos_hint: {'x':.25, 'y':.8}
+            text:'OEE Indicators'
+            color: C('#FFFFFF')
+            font_size: '60dp'
+            text_size: self.size
+            halign: 'left'
+            valign: 'middle'
+            bold: True
+
+
+
+
+
+
+
+
+<Configuracao>:
+    Template:
+        Label:
+            size_hint: .5,.2
+            pos_hint: {'x':.25, 'y':.8}
+            text:'Configuração'
+            color: C('#FFFFFF')
+            font_size: '60dp'
+            text_size: self.size
+            halign: 'left'
+            valign: 'middle'
+            bold: True
+
+        BotaoGrande:
+            text:'Voltar'
+            pos_hint: {'x':.02, 'y': .02}
+            on_release: root.voltar()
+
+<Template@FloatLayout>:
+    Button:
+        size_hint: 1. , .2
+        pos_hint: {'x': .0, 'y': .8}
+        background_color: C('#454545')
+    Image:
+        source: logo
+        size_hint: .2,.2
+        pos_hint: {'x':.02, 'y':.8}
+        allow_stretch: True
+
+    Data:
+
+    Hora:
+
+<BotaoGrande@Button>:
+    font_size: '50dp'
+    bold: True
+    size_hint: .96 , .2
+
+<Data@Label>:
+    text: app.your_date
+    pos_hint: {'x':.65, 'y':.88}
+    color: C('#FFFFFF')
+    size_hint: .5, .1
+    font_size: '30dp'
+    text_size: self.size
+    halign: 'center'
+    valign: 'middle'
+
+<Hora@Label>:
+    text: app.your_time
+    size_hint: .5, .1
+    pos_hint: {'x':.65, 'y':.83}
+    color: C('#FFFFFF')
+    font_size: '30dp'
+    text_size: self.size
+    halign: 'center'
+    valign: 'middle'
+
+<BackgroundColor@Widget>
+    background_color: 1, 1, 1, 1
+    canvas.before:
+        Color:
+            rgba: root.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<BackgroundLabel@Label+BackgroundColor>
+    background_color: 0, 0, 0, 0

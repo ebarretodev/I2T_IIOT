@@ -1,0 +1,7 @@
+Projeto Atual:
+
+Tela com monitoramento do OEE.
+
+
+
+https://explorer.iot2tangle.io/channel/51ca8cd219130e34072fad3ec43cf35c35d91abfb72518aef83e2e5d1f39d7570000000000000000:af30542dce6d9220e371d97c
