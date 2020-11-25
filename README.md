@@ -18,7 +18,5 @@ See GIT HUB Wiki for Understand the scope of project.
 
 https://github.com/ebarretodev/I2T_IIOT/wiki
 
-![image alt text](https://example.com/link-to-image)
-
 [![I2T_IIOT](https://user-images.githubusercontent.com/67025189/100279666-c20fdb00-2f45-11eb-86d0-a075ef89e4dd.png)](https://www.youtube.com/embed/HFRORU1pO3E "I2T_IIOT")
 
