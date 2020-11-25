@@ -33,7 +33,7 @@ from datetime import datetime
 from kivy.utils import get_color_from_hex
 from kivy.core.window import Window
 Window.clearcolor = get_color_from_hex('#FFFFFF')
-Window.fullscreen = False
+Window.fullscreen = True
 Window.size = (1024,600)
 
 #configurando o teclado virtual
@@ -45,6 +45,7 @@ Config.write()
 #modulo para ler dados do clp
 from bin.calculos import Machine
 from bin.mqttconn import MQTT_IOTA_STREAMS
+import json
 #teclados
 
 #############################
@@ -88,7 +89,7 @@ class Configuracao(Screen):
 #classe do aplicativo
 class s4boee(App):
     Robot = Machine(48, 32)
-    # TangleConn = MQTT_IOTA_STREAMS('RaspberryS4B', 'localhost')
+    TangleConn = MQTT_IOTA_STREAMS('RaspberryS4B', 'localhost')
     your_time = StringProperty()
     your_date = StringProperty()
     desempenho_maquina = NumericProperty()
@@ -114,7 +115,7 @@ class s4boee(App):
         Clock.schedule_interval(self.Robot.checkProducing, 1)
         Clock.schedule_interval(self.Robot.checkGoodParts, 1)
         Clock.schedule_interval(self.Robot.CalcIndicators, 1)
-        # Clock.schedule_interval(self.sendData2Tangle, 1)
+        Clock.schedule_interval(self.sendData2Tangle, 1)
 
     def build(self):
         return Gerenciador(transition=ShaderTransition())
@@ -125,19 +126,31 @@ class s4boee(App):
         self.Quality = self.Robot.Quality
         self.OEE = self.Robot.OEE
 
-    # def sendData2Tangle(self, dt):
-    #     if self.OEE != self.lastOEE:
-    #         self.lastOEE = self.OEE
-    #         msg = 'OEE: {:.3f}, Availabity: {:.3f}, Performance: {:.3f}, Quality: {:.3f} '.\
-    #             format(self.Robot.OEE, self.Robot.Availability, self.Robot.Performance, self.Robot.Quality)
-    #         # self.TangleConn.PublishMessage('Machine OEE', msg)
-    #         # self.Robot.cursor.execute("""
-    #         #         SELECT * FROM today_registers ORDER BY ID DESC;
-    #         #         """)
-    #         # LastData = self.Robot.cursor.fetchmany(2)
-    #         msg2 = 'ProductionNo: {}, Time to Produce: {}, Status: {}, Quality: {}'.\
-    #             format(LastData[1][1], LastData[1][3], LastData[1][4], LastData[1][5])
-    #         # self.TangleConn.PublishMessage('Machine Data', msg2)
+    def sendData2Tangle(self, dt):
+        if self.OEE != self.lastOEE:
+            self.lastOEE = self.OEE
+            msg = 'OEE: {:.3f}, Availabity: {:.3f}, Performance: {:.3f}, Quality: {:.3f} '.\
+                format(self.Robot.OEE, self.Robot.Availability, self.Robot.Performance, self.Robot.Quality)
+            self.TangleConn.PublishMessage('Machine OEE', msg)
+            self.Robot.cursor.execute("""
+                    SELECT * FROM today_registers ORDER BY ID DESC;
+                    """)
+            LastData = self.Robot.cursor.fetchmany(2)
+            msg2 = 'ProductionNo: {}, Time to Produce: {}, Status: {}, Quality: {}'.\
+                format(LastData[1][1], LastData[1][3], LastData[1][4], LastData[1][5])
+            #EDITED TO IOTA STREAMS MQTT GATEWAY FORMAT
+            self.TangleConn.PublishMessage('Machine Data', msg2)
+            msg3 = {"iot2tangle":[
+                        {"sensor":"OEE", "data":[{"Indicator":"{:.3f}".format(self.Robot.OEE)}]},
+                        {"sensor":"Availability", "data":[{"Indicator":"{:.3f}".format(self.Robot.Availability)}]},
+                        {"sensor":"Performance", "data":[{"Indicator":"{:.3f}".format(self.Robot.Performance)}]},
+                        {"sensor":"Quality", "data":[{"Indicator":"{:.3f}".format(self.Robot.Quality)}]},
+                        {"sensor":"ProductionNo", "data":[{"Total":"{}".format(LastData[1][1])}]},
+                        {"sensor":"TimetoProduce", "data":[{"seconds":"{}".format(LastData[1][3])}]},
+                        {"sensor":"Status", "data":[{"Ended?":"{}".format(LastData[1][4])}]},
+                        {"sensor":"Quality", "data":[{"Good?":"{}".format(LastData[1][5])}]}],
+                        "device":"MACHINE_OEE","timestamp":"{}".format(time.time())}
+            self.TangleConn.PublishMessage('iot2tangle', json.dumps(msg3))
 
 
     def getDataStoped(self, dt):
