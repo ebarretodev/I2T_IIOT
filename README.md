@@ -15,3 +15,5 @@ For that, an application like Tangle can be used a lot, either in a restricted e
 Thus, in this project it was used with the principle of sending data and keeping it on the network available through the Streams channel that can be accessed some example on this [link](https://explorer.iot2tangle.io/channel/51ca8cd219130e34072fad3ec43cf35c35d91abfb72518aef83e2e5d1f39d7570000000000000000:af30542dce6d9220e371d97c).
 
 See GIT HUB Wiki for Understand the scope of project.
+
+https://github.com/ebarretodev/I2T_IIOT/wiki
